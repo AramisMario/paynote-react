@@ -1,6 +1,7 @@
 import React from "react";
 
 const DebtMainCard = ({loan,handleOpen,addPayment}) =>{
+    console.log("teh LOAN: ",loan);
     return (
         <div className='Main'>
             <div onClick={handleOpen}>
