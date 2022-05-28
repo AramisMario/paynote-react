@@ -1,33 +1,21 @@
-import { useState } from "react";
+import { useState, useReducer } from "react";
 import Axios from "axios";
-import {useOpenDetails} from "./useOpenDetails";
-
+import {openIndexReducer} from "../reducers/OpenIndexReducer";
 export const useLoanList = (initLoanList) =>{
     const [loanList, setLoanList] = useState(initLoanList);
-    const [isPaying,setIsPaying] = useState(false);
-    const {
-        open,
-        indexOpen,
-        setOpen,
-        setIndexOpen,
-        handleOpen
-    } = useOpenDetails(false,-1);
+    const [openManager,openManagerDispatcher] = useReducer(openIndexReducer,{open:false,indexOpen:-1,isPaying:false,indexPaying:-1});
 
-    const addPayment = (index,loan) => {
-        console.log("index: ",index);
-        console.log("loan: ",loan);
-        setIsPaying(true);
+    const addPayment = (index) => {
         let newLoanList = [...loanList];
         if(newLoanList[index]["payments"].length > 0 && newLoanList[index]["payments"][0].loanId){
             newLoanList[index]["payments"].unshift({loanId:null,amount:0,payType:''});
-            // console.log(newLoanList);
             setLoanList(newLoanList);
         }else if(newLoanList[index]["payments"].length === 0){
             console.log("aQUI");
             newLoanList[index]["payments"].push({loanId:null,amount:0,payType:''});
             setLoanList(newLoanList);
         }
-        handleOpen(index,loan,true);
+        openManagerDispatcher({type:'OPEN_TO_PAY',indexOpen:index});
     }
 
     const cancelPayment = (index) =>{
@@ -35,9 +23,7 @@ export const useLoanList = (initLoanList) =>{
             let newLoanList = [...loanList];
             newLoanList[index]["payments"].shift();
             setLoanList(newLoanList);
-            setIsPaying(false);
-            setOpen(false);
-            setIndexOpen(-1);
+            openManagerDispatcher({type:'CANCEL_OR_FINISH_PAY'});
         }
     }
 
@@ -52,9 +38,7 @@ export const useLoanList = (initLoanList) =>{
         Axios.post("http://127.0.0.1:4000/payments/create",data)
         .then((response) => {
             setLoanList(response.data);
-            setIsPaying(false);
-            setOpen(false);
-            setIndexOpen(-1);
+            openManagerDispatcher({type:'CANCEL_OR_FINISH_PAY'});
         })
         .catch((error) => {
             setLoanList([]);
@@ -68,9 +52,7 @@ export const useLoanList = (initLoanList) =>{
         addPayment,
         cancelPayment,
         createPayment,
-        isPaying,
-        handleOpen,
-        indexOpen,
-        open
+        openManagerDispatcher,
+        openManager
     };
 }

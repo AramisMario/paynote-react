@@ -9,7 +9,7 @@ const PaymentCard = ({payment,isPaying,index,loanId}) =>{
     return (
         <div className='details'>
             <hr></hr>
-            {isPaying && index === 0 ? (
+            {value.openManager.isPaying && index === 0 ? (
                 <React.Fragment>
                 <h6>Monto:</h6>
                 <input type="number" onChange={(event) => setAmount(event.target.value)}/>
@@ -26,7 +26,7 @@ const PaymentCard = ({payment,isPaying,index,loanId}) =>{
                 <React.Fragment>
                     <h6>Pago: {payment.amount}</h6>
                     <br></br>
-                    <h6>Fecha: {payment.paymentDate}</h6>
+                    <h6>Fecha: {new Date(payment.paymentDate).toLocaleString('fr')}</h6>
                     <br></br>
                     <h6>Tipo: {payment.payType}</h6>
                 </React.Fragment>
