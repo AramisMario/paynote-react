@@ -1,1 +1,27 @@
+.MainList{
+    overflow-y: auto;
+    /* background-color: red; */
+    /* width: 28rem; */
+    position: relative;
+    top: 60px;
+}
+
+.MainContent{
+    width: 28rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.TopMenu{
+    position: fixed;
+    top: 0px;
+}
+
+.App{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: green; */
+}
 

@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import activeLoanListContext from "../../context/ActiveLoanListContext";
+import {Button,Form} from "react-bootstrap";
+import "./PaymentCard.css";
 const PaymentCard = ({payment,isPaying,index,loanId}) =>{
 
     const [type,setType] = useState('INTERES');
@@ -11,16 +13,37 @@ const PaymentCard = ({payment,isPaying,index,loanId}) =>{
             <hr></hr>
             {value.openManager.isPaying && index === 0 ? (
                 <React.Fragment>
-                <h6>Monto:</h6>
-                <input type="number" onChange={(event) => setAmount(event.target.value)}/>
-                <br></br>
-                <h6>Tipo:</h6>
-                <select name="type" defaultValue={type} onChange={() => setType(type)}>
-                  <option value="INTERES">Interes</option>
-                  <option value="ABONO" >Abono</option>
-                </select>
-               <button onClick={()=> value.createPayment(loanId,type,amount)}>Agregar</button>
-               <button onClick={()=> value.cancelPayment(index)}>Cancelar</button>
+                    <div className="FormGroupTipoMonto">
+                        <div className="tipo">
+
+                            <Form.Group>
+                                <Form.Label>Tipo</Form.Label>
+                                <Form.Select 
+                                    name="type" 
+                                    defaultValue={type} onChange={() => setType(type)}
+                                    aria-label="Default select example"
+                                >
+                                    <option value="INTERES">Interes</option>
+                                    <option value="ABONO" >Abono</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </div>
+                        <div className="monto">
+                            <Form.Group className="mb-3">
+                               <Form.Label>Monto</Form.Label>
+                               <Form.Control 
+                                type="number"  
+                                placeholder="Enter ammount"
+                                onChange={(event) => setAmount(event.target.value)}
+                                />
+                             </Form.Group>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div className="AcceptCancelButtons">
+                        <Button onClick={()=> value.createPayment(loanId,type,amount)}>Agregar</Button>
+                        <Button onClick={()=> value.cancelPayment(index)}>Cancelar</Button>
+                    </div>  
                 </React.Fragment>
             ) : (
                 <React.Fragment>

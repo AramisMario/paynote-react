@@ -2,6 +2,8 @@ import React from "react";
 import {PaymentDetailList} from '../PaymentDetailList/PaymentDetailList';
 import activeLoanListContext from "../../context/ActiveLoanListContext"; 
 import { useContext } from "react";
+import { Button } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 
 const DebtMainCard = ({loan,index}) =>{
     const value = useContext(activeLoanListContext);
@@ -24,7 +26,7 @@ const DebtMainCard = ({loan,index}) =>{
                     <h6>Deuda actual: {loan.current_debt}</h6>
                     <br></br>
                 </div>
-                <button onClick={() => value.addPayment(index)}>Agregar pago</button>
+                <Button variant="primary" onClick={() => value.addPayment(index)}>Agregar pago</Button>
             </div>
             <div className="CardDetails">
                 {

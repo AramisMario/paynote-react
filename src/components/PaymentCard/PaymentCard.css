@@ -1,0 +1,12 @@
+.FormGroupTipoMonto{
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.AcceptCancelButtons{
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
