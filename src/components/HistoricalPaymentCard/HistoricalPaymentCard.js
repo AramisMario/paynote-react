@@ -11,6 +11,8 @@ const HistoricalPaymentCard = (props) =>{
                     <h6>Fecha: {payment.paymentDate}</h6>
                     <br></br>
                     <h6>Tipo: {payment.payType}</h6>
+                    <br></br>
+                    <h6>Deudor: {payment.loan.debtor.name}</h6>
                 </div>
             </div>
         </div>

@@ -1,28 +1,18 @@
-import React,{useEffect,useState,useReducer} from 'react';
+import React,{useEffect,useContext} from 'react';
 import Axios from "axios";
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import { DebtMainCard } from '../DebtMainCard/DebtMainCard';
 import activeLoanListContext from '../../context/ActiveLoanListContext';
-import { useLoanList } from '../../customHooks/useLoanList';
+// import { useLoanList } from '../../customHooks/useLoanList';
 import Card from "react-bootstrap/Card";
 
 const ActiveLoansList = (props) =>{
-
-    const {
-        loanList,
-        setLoanList,
-        addPayment,
-        cancelPayment,
-        createPayment,
-        openManagerDispatcher,
-        openManager
-    } = useLoanList([]);
-
+    const value = useContext(activeLoanListContext);
     useEffect(() => {
        Axios.get("http://127.0.0.1:4000/loans/showactive")
        .then((response) => {
-            setLoanList(response.data);
+            value.setLoanList(response.data);
        })
        .catch((error) => {
             console.log(error);
@@ -32,15 +22,15 @@ const ActiveLoansList = (props) =>{
     return (
             <React.Fragment>
                 <Card style={{ width: '28rem' }}>
-                    <activeLoanListContext.Provider value={{
+                    {/* <activeLoanListContext.Provider value={{
                         createPayment,
                         cancelPayment,
                         openManagerDispatcher,
                         addPayment,
                         openManager
-                    }}>
+                    }}> */}
                         <ListGroup>
-                            {loanList.map((loan,index) =>{
+                            {value.loanList.map((loan,index) =>{
                                 return (
                                     <ListGroupItem key={`loan-${loan.id}`}>
                                         <DebtMainCard
@@ -51,7 +41,7 @@ const ActiveLoansList = (props) =>{
                                 );
                             })}
                         </ListGroup>
-                    </activeLoanListContext.Provider>
+                    {/* </activeLoanListContext.Provider> */}
                 </Card>
             </React.Fragment>
     );
