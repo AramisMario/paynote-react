@@ -19,6 +19,7 @@ function App() {
   const [navIndex, setNavIndex] = useState(0);
   const [modalShow,setModalShow] = useState(false);
   const [debtors, setDebtors] = useState([]);
+  const [types, setTypes] = useState([]);
 
   const {
     loanList,
@@ -38,17 +39,28 @@ function App() {
     .catch((error) => {
         console.log(error);
     });
+
+    Axios.get('http://127.0.0.1:4000/types/all')
+    .then((response) => {
+      setTypes(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   },[]);
 
-  const createLoan = ({amount,debtorId,description},setForm) =>{
+  const createLoan = ({amount,debtorId,typeId,description,percent},setForm) =>{
     let data = {
       amount,
       debtorId,
-      description
+      description,
+      percent,
+      typeId
     };
     Axios.post('http://127.0.0.1:4000/loans/createloan',data)
     .then((response) =>{
-      setForm({debtorId:null,description:'',amount:0});
+      setForm({debtorId:null,description:'',amount:0,typeId:null,percent:''});
       setLoanList(response.data);
       setModalShow(false);
     })
@@ -86,6 +98,7 @@ function App() {
       </div>
 
       <MyModal
+        types={types}
         debtors={debtors}
         show={modalShow}
         createLoan={createLoan}

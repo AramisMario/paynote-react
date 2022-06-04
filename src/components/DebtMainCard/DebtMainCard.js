@@ -19,11 +19,13 @@ const DebtMainCard = ({loan,index}) =>{
                         })}}>
                     <h6>Deudor: {loan.debtor.name}</h6>
                     <br></br>
-                    <h6>Monto: {loan.amount}</h6>
+                    <h6>Monto: {Intl.NumberFormat('en-US',{currency:'COP'}).format(loan.amount)}</h6>
+                    <br></br>
+                    <h6>Porcentaje: {loan.interest_percentage}%</h6>
                     <br></br>
                     <h6>Abierto: {new Date(loan.loanDate).toLocaleString('fr')}</h6>
                     <br></br>
-                    <h6>Deuda actual: {loan.current_debt}</h6>
+                    <h6>Deuda actual: {Intl.NumberFormat('en-US',{currency:'COP'}).format(loan.current_debt)}</h6>
                     <br></br>
                 </div>
                 <Button variant="primary" onClick={() => value.addPayment(index)}>Agregar pago</Button>
@@ -44,6 +46,7 @@ const DebtMainCard = ({loan,index}) =>{
                         // isPaying={value.isPaying}
                         isPaying={false}
                         loanId={loan.id}
+                        interest={loan.interest_amount}
                     />
                 }
                 
