@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Button,Modal,Form} from "react-bootstrap";
 
-const MyModal = (props) =>{
+const AddLoanModal = (props) =>{
     
     const [form,setForm] = useState({debtorId:null,description:'',amount:0,typeId:null,percent:''}); 
     const {createLoan,types,...rest} = props;
@@ -85,4 +85,4 @@ const MyModal = (props) =>{
       );
 }
 
-export {MyModal};
+export {AddLoanModal};

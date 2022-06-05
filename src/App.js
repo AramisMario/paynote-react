@@ -5,19 +5,18 @@ import {ActiveLoansList} from './components/ActiveLoansList/ActiveLoanList';
 import { HistoricalPaymentsList } from './components/HistoricalPaymentsList/HistoricalPaymentsList';
 import {DebtorList} from "./components/DebtorsList/DebtorList";
 import {TopMenu} from "./components/TopMenu/TopMenu";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
-import {MyModal} from "./components/Modal/Modal";
+import {AddLoanModal} from "./components/AddLoanModal/AddLoanModal";
+import {ChartModal} from "./components/ChartModal/ChartModal";
 import Axios from "axios";
 import { useLoanList } from './customHooks/useLoanList';
 import activeLoanListContext from './context/ActiveLoanListContext';
-library.add(faPlusCircle);
+import {useChart} from "./customHooks/useChart";
+import {AddIcon} from "./components/AddIcon/AddIcon";
 
 function App() {
 
   const [navIndex, setNavIndex] = useState(0);
-  const [modalShow,setModalShow] = useState(false);
+  const [loanModalShow,setLoanModalShow] = useState(false);
   const [debtors, setDebtors] = useState([]);
   const [types, setTypes] = useState([]);
 
@@ -29,7 +28,19 @@ function App() {
     createPayment,
     openManagerDispatcher,
     openManager
-  } = useLoanList([]);
+} = useLoanList([]);
+
+const {
+  // chartSeries, 
+  // setSeries,
+  // categories,
+  // setCategories,
+  options,
+  setOptions,
+  viewChart,
+  setViewChart,
+  setSeriesAndCategories} = useChart();
+
 
   useEffect(()=>{
     Axios.get('http://127.0.0.1:4000/debtors/alldebtors')
@@ -62,7 +73,7 @@ function App() {
     .then((response) =>{
       setForm({debtorId:null,description:'',amount:0,typeId:null,percent:''});
       setLoanList(response.data);
-      setModalShow(false);
+      setLoanModalShow(false);
     })
     .catch((error) => console.log(error));
   }
@@ -83,26 +94,25 @@ function App() {
               addPayment,
               openManager,
               loanList,
-              setLoanList
+              setLoanList,
+              setViewChart,
+              setSeriesAndCategories
             }}>
                 <ActiveLoansList/>
             </activeLoanListContext.Provider>
           }
           {navIndex === 1 && <HistoricalPaymentsList/>}
           {navIndex === 2 && <DebtorList/>}
+          {viewChart && <ChartModal options={options} show={viewChart} onHide={() => setViewChart(false)}/>}
         </div>
       </div>
-
-      <div className="AddLoanIcon">
-        <FontAwesomeIcon icon={faPlusCircle} onClick={() => setModalShow(true)} color="red" size="4x"/>
-      </div>
-
-      <MyModal
+      <AddIcon setLoanModalShow={setLoanModalShow}/>
+      <AddLoanModal
         types={types}
         debtors={debtors}
-        show={modalShow}
+        show={loanModalShow}
         createLoan={createLoan}
-        onHide={() => setModalShow(false)}
+        onHide={() => setLoanModalShow(false)}
       />
 
     </div>
