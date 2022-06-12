@@ -1,11 +1,16 @@
-import React from "react";
+import React,{useRef,useState} from "react";
 import {PaymentDetailList} from '../PaymentDetailList/PaymentDetailList';
 import activeLoanListContext from "../../context/ActiveLoanListContext"; 
 import { useContext } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Overlay, Tooltip, Popover } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-
+import { usePopover } from "../../customHooks/usePopover";
 const DebtMainCard = ({loan,index}) =>{
+
+
+    const {show,
+        target,
+        verifyPayments} = usePopover({defaultShow:false,defaultTarget:null});
     const value = useContext(activeLoanListContext);
 
     const handleViewChart = () =>{
@@ -35,16 +40,15 @@ const DebtMainCard = ({loan,index}) =>{
         ];
         value.setSeriesAndCategories(serie,dates);
     }
+
+
     return (
         <div className="Main">
             <div className="CardHeader">
-                <div onClick={() => {
-                    // value.handleOpen(index,loan,value.isPaying);
-                    value.openManagerDispatcher(
-                        {
-                            type:'OPEN_INDEX',
-                            indexOpen:index
-                        })}}>
+                <div ref={target} onClick={() => {
+                        verifyPayments(loan);
+                        value.openManagerDispatcher({type:'OPEN_INDEX',indexOpen:index});
+                    }}>
                     <h6>Deudor: {loan.debtor.name}</h6>
                     <br></br>
                     <h6>Monto: {Intl.NumberFormat('en-US',{currency:'COP'}).format(loan.amount)}</h6>
@@ -56,6 +60,15 @@ const DebtMainCard = ({loan,index}) =>{
                     <h6>Deuda actual: {Intl.NumberFormat('en-US',{currency:'COP'}).format(loan.current_debt)}</h6>
                     <br></br>
                 </div>
+                
+                <Overlay target={target.current} show={show} placement="right">
+                    <Popover id="popover-basic">
+                        <Popover.Body>
+                          No hay información de pagos disponibles para el prestamo seleccionado
+                        </Popover.Body>
+                    </Popover>
+                </Overlay>
+
                 <Button variant="primary" onClick={() => value.addPayment(index)}>Agregar pago</Button>
                 <Button variant="info" onClick={() => handleViewChart()}>Graficar</Button>
             </div>

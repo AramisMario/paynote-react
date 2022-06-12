@@ -5,6 +5,7 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import { DebtMainCard } from '../DebtMainCard/DebtMainCard';
 import activeLoanListContext from '../../context/ActiveLoanListContext';
 // import { useLoanList } from '../../customHooks/useLoanList';
+import "./ListGroupItem.css";
 import Card from "react-bootstrap/Card";
 
 const ActiveLoansList = (props) =>{
@@ -21,18 +22,12 @@ const ActiveLoansList = (props) =>{
 
     return (
             <React.Fragment>
-                <Card style={{ width: '28rem' }}>
-                    {/* <activeLoanListContext.Provider value={{
-                        createPayment,
-                        cancelPayment,
-                        openManagerDispatcher,
-                        addPayment,
-                        openManager
-                    }}> */}
+                <div style={{width: '28rem', backgroundColor:"red"}}>
+                {/* <Card style={{ width: '28rem' }}> */}
                         <ListGroup>
                             {value.loanList.map((loan,index) =>{
                                 return (
-                                    <ListGroupItem key={`loan-${loan.id}`}>
+                                    <ListGroupItem className="listGroupItem" key={`loan-${loan.id}`}>
                                         <DebtMainCard
                                             loan={loan} 
                                             index={index}
@@ -41,8 +36,8 @@ const ActiveLoansList = (props) =>{
                                 );
                             })}
                         </ListGroup>
-                    {/* </activeLoanListContext.Provider> */}
-                </Card>
+                {/* </Card> */}
+                </div>
             </React.Fragment>
     );
 }
