@@ -1,8 +1,6 @@
 
 .MainList{
     overflow-y: auto;
-    /* background-color: red; */
-    /* width: 28rem; */
     position: relative;
     top: 60px;
 }

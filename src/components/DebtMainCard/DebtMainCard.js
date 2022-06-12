@@ -16,7 +16,9 @@ const DebtMainCard = ({loan,index}) =>{
     const handleViewChart = () =>{
         value.setViewChart(true);
 
-        let interest = loan.payments.map((payment) => {
+        let sortedPayments = loan.payments.sort((a,b) => new Date(a.paymentDate) - new Date(b.paymentDate));
+
+        let interest = sortedPayments.map((payment) => {
             if(payment.payType === "INTERES"){
                 return Number.parseFloat(payment.amount);
             }else{
@@ -24,7 +26,7 @@ const DebtMainCard = ({loan,index}) =>{
             }
         });
 
-        let abonos = loan.payments.map((payment) => {
+        let abonos = sortedPayments.map((payment) => {
             if(payment.payType === "ABONO"){
                 return Number.parseFloat(payment.amount);
             }else{
@@ -32,7 +34,7 @@ const DebtMainCard = ({loan,index}) =>{
             }
         });
 
-        let dates = loan.payments.map((payment) => payment.paymentDate);
+        let dates = sortedPayments.map((payment) => new Date(payment.paymentDate).toLocaleDateString());
 
         let serie = [
             {name:'INTERES', data:interest},
@@ -80,12 +82,8 @@ const DebtMainCard = ({loan,index}) =>{
                     &&
                     index === value.openManager.indexOpen
                     &&
-                    // && value.open 
-                    // && index === value.indexOpen 
-                    // && 
                     <PaymentDetailList
                         payments={loan.payments} 
-                        // isPaying={value.isPaying}
                         isPaying={false}
                         loanId={loan.id}
                         interest={loan.interest_amount}

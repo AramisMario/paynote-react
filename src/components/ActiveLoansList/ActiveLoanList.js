@@ -22,7 +22,7 @@ const ActiveLoansList = (props) =>{
 
     return (
             <React.Fragment>
-                <div style={{width: '28rem', backgroundColor:"red"}}>
+                <div style={{width: '28rem'}}>
                 {/* <Card style={{ width: '28rem' }}> */}
                         <ListGroup>
                             {value.loanList.map((loan,index) =>{

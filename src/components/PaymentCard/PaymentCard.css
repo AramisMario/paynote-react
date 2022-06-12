@@ -10,3 +10,7 @@
     flex-direction: row;
     justify-content: space-around;
 }
+
+.details{
+    padding-left: 25px;
+}

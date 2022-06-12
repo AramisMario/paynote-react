@@ -7,7 +7,7 @@ const ChartModal = (props) =>{
     return (
         <Modal
           {...rest}
-          size="md"
+          size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
